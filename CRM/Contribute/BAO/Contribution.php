@@ -79,7 +79,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution {
       return;
     }
 
-    $duplicates = array();
+    /*$duplicates = array();
     if (self::checkDuplicate($params, $duplicates,
         CRM_Utils_Array::value('contribution', $ids)
       )) {
@@ -91,7 +91,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution {
         "Duplicate error - existing contribution record(s) have a matching Transaction ID or Invoice ID. Contribution record ID(s) are: $d"
       );
       return $error;
-    }
+    }*/
 
     // first clean up all the money fields
     $moneyFields = array(

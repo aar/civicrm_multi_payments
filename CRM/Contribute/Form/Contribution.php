@@ -883,11 +883,11 @@ WHERE  contribution_id = {$this->_id}
       $element->freeze();
     }
     else {
-      $this->addRule('trxn_id',
+      /*$this->addRule('trxn_id',
         ts('This Transaction ID already exists in the database. Include the account number for checks.'),
         'objectExists',
         array('CRM_Contribute_DAO_Contribution', $this->_id, 'trxn_id')
-      );
+      );*/
     }
     //add receipt for offline contribution
     $this->addElement('checkbox', 'is_email_receipt', ts('Send Receipt?'));
