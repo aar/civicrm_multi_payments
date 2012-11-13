@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.1                                                |
+ | CiviCRM version 4.2                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2011                                |
+ | Copyright CiviCRM LLC (c) 2004-2012                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2011
+ * @copyright CiviCRM LLC (c) 2004-2012
  * @copyright David Strauss <david@fourkitchens.com> (c) 2007
  * $Id$
  *
@@ -184,19 +184,15 @@ class CRM_Core_Transaction {
    *
    * @param $phase A constant; one of: self::PHASE_{PRE,POST}_{COMMIT,ROLLBACK}
    * @param $callback A PHP callback
-   * @param mixed $params Optional values to pass to callback. See php manual call_user_func_array for details.
    */
-  static public function addCallback($phase, $callback, $params = null) {
-    self::$_callbacks[$phase][] = array(
-      'callback' => $callback,
-      'parameters' => (is_array($params) ? $params : array($params))
-    );
+  static public function addCallback($phase, $callback) {
+    self::$_callbacks[$phase][] = $callback;
   }
 
   static protected function invokeCallbacks($phase, $callbacks) {
     if (is_array($callbacks[$phase])) {
       foreach ($callbacks[$phase] as $cb) {
-        call_user_func_array($cb['callback'], $cb['parameters']);
+        call_user_func($cb);
       }
     }
   }
