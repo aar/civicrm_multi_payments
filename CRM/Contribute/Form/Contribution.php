@@ -1166,16 +1166,18 @@ WHERE  contribution_id = {$this->_id}
       }
 
       $lineItems         = CRM_Price_BAO_LineItem::getLineItems($entityID, $entityTable);
-      $itemId            = key($lineItems);
-      $fieldType         = NULL;
-      if ($itemId && CRM_Utils_Array::value('price_field_id', $lineItems[$itemId])) {
-        $fieldType = CRM_Core_DAO::getFieldValue('CRM_Price_DAO_Field', $lineItems[$itemId]['price_field_id'], 'html_type');
+      if(!empty($lineItems)) {
+        $itemId            = key($lineItems);
+        $fieldType         = NULL;
+        if ($itemId && CRM_Utils_Array::value('price_field_id', $lineItems[$itemId])) {
+          $fieldType = CRM_Core_DAO::getFieldValue('CRM_Price_DAO_Field', $lineItems[$itemId]['price_field_id'], 'html_type');
+        }
+        $lineItems[$itemId]['unit_price'] = $lineItems[$itemId]['line_total'] = CRM_Utils_Rule::cleanMoney(CRM_Utils_Array::value('total_amount', $submittedValues));
+        $lineItems[$itemId]['id'] = $itemId;
+        // 10117 update th line items for participants
+        $this->_priceSetId = CRM_Core_DAO::getFieldValue('CRM_Price_DAO_Field', $lineItems[$itemId]['price_field_id'], 'price_set_id');
+        $lineItem[$this->_priceSetId] = $lineItems; 
       }
-      $lineItems[$itemId]['unit_price'] = $lineItems[$itemId]['line_total'] = CRM_Utils_Rule::cleanMoney(CRM_Utils_Array::value('total_amount', $submittedValues));
-      $lineItems[$itemId]['id'] = $itemId;
-      // 10117 update th line items for participants
-      $this->_priceSetId = CRM_Core_DAO::getFieldValue('CRM_Price_DAO_Field', $lineItems[$itemId]['price_field_id'], 'price_set_id');
-      $lineItem[$this->_priceSetId] = $lineItems;
     }
     $isQuickConfig = 0;
     if ($this->_priceSetId &&  CRM_Core_DAO::getFieldValue('CRM_Price_DAO_Set', $this->_priceSetId, 'is_quick_config')) {
