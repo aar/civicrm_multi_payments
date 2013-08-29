@@ -1,0 +1,64 @@
+7f06b9f0cbe390c71fe7e2697536ad8b5eba03ac
+ CRM/Contribute/BAO/Contribution.php    | 4 ++--
+ CRM/Contribute/Form/AdditionalInfo.php | 4 ++--
+ CRM/Contribute/Form/Contribution.php   | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/CRM/Contribute/BAO/Contribution.php b/CRM/Contribute/BAO/Contribution.php
+index d133641..09717c3 100644
+--- a/CRM/Contribute/BAO/Contribution.php
++++ b/CRM/Contribute/BAO/Contribution.php
+@@ -79,7 +79,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution {
+       return;
+     }
+ 
+-    $duplicates = array();
++    /*$duplicates = array();
+     if (self::checkDuplicate($params, $duplicates,
+         CRM_Utils_Array::value('contribution', $ids)
+       )) {
+@@ -91,7 +91,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution {
+         "Duplicate error - existing contribution record(s) have a matching Transaction ID or Invoice ID. Contribution record ID(s) are: $d"
+       );
+       return $error;
+-    }
++    }*/
+ 
+     // first clean up all the money fields
+     $moneyFields = array(
+diff --git a/CRM/Contribute/Form/AdditionalInfo.php b/CRM/Contribute/Form/AdditionalInfo.php
+index 5669261..a4f40ca 100644
+--- a/CRM/Contribute/Form/AdditionalInfo.php
++++ b/CRM/Contribute/Form/AdditionalInfo.php
+@@ -129,11 +129,11 @@ class CRM_Contribute_Form_AdditionalInfo {
+       $element->freeze();
+     }
+     else {
+-      $form->addRule('invoice_id',
++      /*$form->addRule('invoice_id',
+         ts('This Invoice ID already exists in the database.'),
+         'objectExists',
+         array('CRM_Contribute_DAO_Contribution', $form->_id, 'invoice_id')
+-      );
++      );*/
+     }
+ 
+     $form->add('select', 'contribution_page_id',
+diff --git a/CRM/Contribute/Form/Contribution.php b/CRM/Contribute/Form/Contribution.php
+index 05e6413..dedb225 100644
+--- a/CRM/Contribute/Form/Contribution.php
++++ b/CRM/Contribute/Form/Contribution.php
+@@ -883,11 +883,11 @@ WHERE  contribution_id = {$this->_id}
+       $element->freeze();
+     }
+     else {
+-      $this->addRule('trxn_id',
++      /*$this->addRule('trxn_id',
+         ts('This Transaction ID already exists in the database. Include the account number for checks.'),
+         'objectExists',
+         array('CRM_Contribute_DAO_Contribution', $this->_id, 'trxn_id')
+-      );
++      );*/
+     }
+     //add receipt for offline contribution
+     $this->addElement('checkbox', 'is_email_receipt', ts('Send Receipt?'));
