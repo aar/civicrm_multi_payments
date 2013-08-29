@@ -29,6 +29,6 @@ Example: `7.x-4.2.6-1.x`
 
 Important Dev Note
 ======================
-When making any merging any changes into `master` that will be then be a production release must be saved and committed as a patch file. This will allow us to merge into future version of CiviCRM and keep track of our importan customizations/fixes. If you fail to do this, it is probable that changes will be lost during CiviCRM release merging.
+When merging any changes into `master` that will be then be a production release must be saved and committed as a patch file. This will allow us to merge into future version of CiviCRM and keep track of our importan customizations/fixes. If you fail to do this, it is probable that changes will be lost during CiviCRM release merging.
 
 Eventually we'll want to merge the Forked [CiviCRM 4.2 LTS](https://github.com/CiviCRM42/civicrm42-core) repo into this repo to gain the benefit community fixes specific to the 4.2 CiviCRM release.
