@@ -23,3 +23,6 @@ This is the fork of CiviCRM specific to the OASIS project. The primary reason fo
 *   **E** = CiviCRM Patched Version
 *   **F** = OASIS Fork Major Version
 *   **G** = OASIS Fork Minor Version
+
+When creating dev branches, end the OASIS fork minor version in "x".
+Example: `7.x-4.2.6-1.x`
