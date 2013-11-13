@@ -2136,7 +2136,9 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                 // when we fixed CRM-5319 - get primary loc
                 // type as per loc field and removed below code.
                 if ($locTypeId == 'Primary') {
-                  $locTypeId = CRM_Contact_BAO_Contact::getPrimaryLocationType($contactId);
+                  //$locTypeId = CRM_Contact_BAO_Contact::getPrimaryLocationType($contactId);
+                  module_load_include('module', 'oasis_core');
+                  $locTypeId = get_primary_address_location_type($contactId);
                 }
 
                 // fixed for CRM-665
