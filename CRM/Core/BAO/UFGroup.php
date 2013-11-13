@@ -2000,8 +2000,8 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
       $details = CRM_Utils_Array::value($contactId, $contactDetails);
       $multipleFields = array('website' => 'url');
       
-      $details[1]['location_type_id'] = 3;//CRM_Contact_BAO_Contact::getPrimaryAddressLocationType($contactId);
-      $locTypeName = 'Main';//CRM_Core_DAO::getFieldValue('CRM_Core_DAO_LocationType', $details[1]['location_type_id'], 'name', 'id');
+      $details[1]['location_type_id'] = CRM_Contact_BAO_Contact::getPrimaryAddressLocationType($contactId);
+      $locTypeName = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_LocationType', $details[1]['location_type_id'], 'name', 'id');
       $details[1]['location_type'] = $locTypeName ;
       //start of code to set the default values
       foreach ($fields as $name => $field) {
