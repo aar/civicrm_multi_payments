@@ -1999,7 +1999,10 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
       list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails($contactId, $fields);
       $details = CRM_Utils_Array::value($contactId, $contactDetails);
       $multipleFields = array('website' => 'url');
-
+      
+      $details[1]['location_type_id'] = CRM_Contact_BAO_Contact::getPrimaryAddressLocationType($contactId);
+      $locTypeName = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_LocationType', $details[1]['location_type_id'], 'name', 'id');
+      $details[1]['location_type'] = $locTypeName ;
       //start of code to set the default values
       foreach ($fields as $name => $field) {
         //set the field name depending upon the profile mode(single/batch)
@@ -2136,7 +2139,7 @@ AND    ( entity_id IS NULL OR entity_id <= 0 )
                 // when we fixed CRM-5319 - get primary loc
                 // type as per loc field and removed below code.
                 if ($locTypeId == 'Primary') {
-                  $locTypeId = CRM_Contact_BAO_Contact::getPrimaryLocationType($contactId);
+                  $locTypeId = CRM_Contact_BAO_Contact::getPrimaryAddressLocationType($contactId);
                 }
 
                 // fixed for CRM-665

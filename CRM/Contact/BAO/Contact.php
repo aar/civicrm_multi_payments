@@ -1536,6 +1536,58 @@ WHERE  civicrm_contact.id = %1 ";
       return $defaultLocationType->id;
     }
   }
+  
+  /* Function to return the primary location type of a contact based on their address(es).
+   *
+   * $params int     $contactId contact_id
+   * $params boolean $isPrimaryExist if true, return primary contact location type otherwise null
+   * $params boolean $skipDefaultPriamry if true, return primary contact location type otherwise null
+   *
+   * @return int $locationType location_type_id
+   * @access public
+   * @static
+   */
+  static function getPrimaryAddressLocationType($contactId, $skipDefaultPriamry = FALSE) {
+    
+    static $location_type_id = null;
+    
+    if(!empty($location_type_id)) {
+      return $location_type_id;
+    }
+    else {
+      $query = "
+SELECT
+     civicrm_address.location_type_id as locationType
+FROM civicrm_contact
+     LEFT JOIN civicrm_address ON ( civicrm_address.is_primary = 1 AND civicrm_address.contact_id = civicrm_contact.id)
+WHERE  civicrm_contact.id = %1 ";
+
+      $params = array(1 => array($contactId, 'Integer'));
+
+      $dao = CRM_Core_DAO::executeQuery($query, $params);
+
+      $locationType = NULL;
+      if ($dao->fetch()) {
+        $locationType = $dao->locationType;
+      }
+
+      if ($locationType) {
+        return $locationType;
+      }
+      elseif ($skipDefaultPriamry) {
+        // if there is no primary contact location then return null
+        return NULL;
+      }
+      else {
+        // if there is no primart contact location, then return default
+        // location type of the system
+        $defaultLocationType = CRM_Core_BAO_LocationType::getDefault();
+        $location_type_id = $defaultLocationType->id;
+        
+        return $location_type_id;
+      }        
+    }
+  }
 
   /**
    * function to get the display name, primary email and location type of a contact
