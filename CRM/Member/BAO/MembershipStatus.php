@@ -329,9 +329,18 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus {
         $membershipStatus->free();
         return $membershipDetails;
       }
+
+      // Get the expired status info so we can use it if there is no other event.
+      if ($membershipStatus->name == 'Expired') {
+        $expiredStatus['id'] = $membershipStatus->id;
+        $expiredStatus['name'] = $membershipStatus->name;
+      }
+    }
+    // Handle expired memberships
+    if(empty($membershipDetails) && !empty($endEvent) && $statusDate > $endEvent) {
+      $membershipDetails = $expiredStatus;
     }
     //end fetch
-
     $membershipStatus->free();
     return $membershipDetails;
   }
