@@ -2366,7 +2366,7 @@ INNER JOIN  civicrm_contact contact ON ( contact.id = membership.contact_id AND 
      * @access public
      */
 
-  static function updateAllMembershipStatus() {
+  static function updateAllMembershipStatus($contact_id = false) {
     require_once 'api/api.php';
 
     //get all active statuses of membership, CRM-3984
@@ -2391,7 +2391,7 @@ SELECT     civicrm_membership.id                    as membership_id,
            civicrm_membership.contribution_recur_id as recur_id
 FROM       civicrm_membership
 INNER JOIN civicrm_contact ON ( civicrm_membership.contact_id = civicrm_contact.id )
-WHERE      civicrm_membership.is_test = 0";
+WHERE      civicrm_membership.is_test = 0" . (empty($contact_id) ? '' : ' AND civicrm_contact.id = ' . intval($contact_id) . ' ');
 
     $params = array();
     $dao = CRM_Core_DAO::executeQuery($query, $params);
@@ -2516,8 +2516,8 @@ WHERE      civicrm_membership.is_test = 0";
       }
 
       //convert date from string format to timestamp format
-      $reminder_date = CRM_Utils_DATE::unixTime($dao->reminder_date);
-      $today_date = CRM_Utils_DATE::unixTime($today);
+      $reminder_date = CRM_Utils_Date::unixTime($dao->reminder_date);
+      $today_date = CRM_Utils_Date::unixTime($today);
 
       //send reminder for membership renewal
       if ($dao->reminder_date &&
