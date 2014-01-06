@@ -2391,7 +2391,7 @@ SELECT     civicrm_membership.id                    as membership_id,
            civicrm_membership.contribution_recur_id as recur_id
 FROM       civicrm_membership
 INNER JOIN civicrm_contact ON ( civicrm_membership.contact_id = civicrm_contact.id )
-WHERE      civicrm_membership.is_test = 0" . (empty($contact_id) ? '' : ' AND civicrm_contact.id = ' . intval($contact_id) . ' ');
+WHERE      civicrm_membership.is_test = 0 AND civicrm_membership.status_id NOT IN (4 /* Expired */, 6 /* Cancelled */, 7 /* Deceased */)" . (empty($contact_id) ? '' : ' AND civicrm_contact.id = ' . intval($contact_id) . ' ');
 
     $params = array();
     $dao = CRM_Core_DAO::executeQuery($query, $params);
