@@ -750,8 +750,10 @@ INNER JOIN  civicrm_membership_type type ON ( type.id = membership.membership_ty
               }
             }
 
-            $javascriptMethod = array('onclick' => "return showHideAutoRenew( this.value );");
-            $autoRenewMembershipTypeOptions["autoRenewMembershipType_{$value}"] = (int)$allowAutoRenewOpt * CRM_Utils_Array::value($value, $form->_membershipBlock['auto_renew']);;
+            if(!empty($form->_membershipBlock['auto_renew'])) {
+              $javascriptMethod = array('onclick' => "return showHideAutoRenew( this.value );");
+              $autoRenewMembershipTypeOptions["autoRenewMembershipType_{$value}"] = (int)$allowAutoRenewOpt * CRM_Utils_Array::value($value, $form->_membershipBlock['auto_renew']);;
+            }
 
             if ($allowAutoRenewOpt) {
               $allowAutoRenewMembership = TRUE;
