@@ -2393,7 +2393,10 @@ SELECT     civicrm_membership.id                    as membership_id,
            civicrm_membership.contribution_recur_id as recur_id
 FROM       civicrm_membership
 INNER JOIN civicrm_contact ON ( civicrm_membership.contact_id = civicrm_contact.id )
-WHERE      civicrm_membership.is_test = 0 AND civicrm_membership.status_id NOT IN (4 /* Expired */, 6 /* Cancelled */, 7 /* Deceased */)" . (empty($contact_id) ? '' : ' AND civicrm_contact.id = ' . intval($contact_id) . ' ');
+WHERE      civicrm_membership.is_test = 0 AND civicrm_membership.status_id NOT IN (4 /* Expired */, 6 /* Cancelled */, 7 /* Deceased */)" . (empty($contact_id) ? '' : ' AND civicrm_contact.id = ' . intval($contact_id) . ' ') . "
+LIMIT 0,10";
+    $time_pre = microtime(true);
+
 
     $params = array();
     $dao = CRM_Core_DAO::executeQuery($query, $params);
@@ -2610,6 +2613,10 @@ Message: {$msgTpl[$memType->renewal_msg_id]['details']}
       }
       // CRM_Core_Error::debug( 'fEnd', count( $GLOBALS['_DB_DATAOBJECT']['RESULTS'] ) );
     }
+
+    $time_post = microtime(true);
+    $exec_time = $time_post - $time_pre;
+
     $result['is_error'] = 0;
     $result['messages'] = ts('Processed %1 membership records. Updated %2 records. Sent %3 renewal reminders.', array(1 => $processCount, 2 => $updateCount, 3 => $reminderCount));
     return $result;
