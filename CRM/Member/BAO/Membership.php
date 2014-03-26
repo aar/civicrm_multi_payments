@@ -1484,9 +1484,7 @@ AND civicrm_membership.is_test = %2";
       // Do NOT do anything.
       //1. membership with status : PENDING/CANCELLED (CRM-2395)
       //2. Paylater/IPN renew. CRM-4556.
-      if ($pending || in_array($currentMembership['status_id'], array(array_search('Pending', $allStatus),
-            array_search('Cancelled', $allStatus),
-          ))) {
+      if ($pending || in_array($currentMembership['status_id'], array(array_search('Pending', $allStatus)))) {
         $membership = new CRM_Member_DAO_Membership();
         $membership->id = $currentMembership['id'];
         $membership->find(TRUE);
@@ -1747,6 +1745,12 @@ AND civicrm_membership.is_test = %2";
    * @static
    */
   static function fixMembershipStatusBeforeRenew(&$currentMembership, $changeToday) {
+
+    // We don't want to alter overridden statuses.
+    if(!empty($currentMembership['is_override'])) {
+      return;
+    }
+
     $today = NULL;
     if ($changeToday) {
       $today = CRM_Utils_Date::processDate($changeToday, NULL, FALSE, 'Y-m-d');
