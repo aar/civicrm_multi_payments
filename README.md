@@ -5,6 +5,7 @@ This is the fork of CiviCRM specific to the OASIS project. The primary reason fo
 
 ### Current Release
 
+*   2014-01-06: **7.x-4.2.6-1.1**
 *   2013-08-29: **7.x-4.2.6-1.0**
 
 ### Other Releases
